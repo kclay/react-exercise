@@ -60,7 +60,7 @@ const webpackConfig = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-    const buildFolder = path.resolve(__dirname, 'pro-photo-built');
+    const buildFolder = path.resolve(__dirname, 'pro-photo-plugin');
     webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
         "mangle": {
             "screw_ie8": true

@@ -17,4 +17,5 @@ To build for production run:
 
 `yarn build`
 
-A production-ready WordPress plugin will be built in the `pro-photo-built` folder.
+A production-ready WordPress plugin will be built in the `pro-photo-plugin` folder.
+Copy folder to `wp-content/plugins' and enable in wp-admin
