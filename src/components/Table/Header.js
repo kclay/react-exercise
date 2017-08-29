@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 class Header extends React.Component {
 
-
+    static propTypes = {
+        onAction: PropTypes.func.isRequired
+    }
     state = {
         action: null
     }
@@ -42,7 +44,5 @@ class Header extends React.Component {
     }
 
 }
-Header.propTypes = {
-    onAction: PropTypes.func.isRequired
-};
+
 export default Header;

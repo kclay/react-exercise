@@ -9,9 +9,11 @@ import './Table.css';
 import Image from '../Image';
 import EditableCell from "./EditableCell";
 import Header from "./Header";
+import SelectAllHeader from "./SelectAllHeader";
+import CheckCell from "./CheckCell";
 
 
-class Table extends React.Component {
+class UnconnectedTable extends React.Component {
 
 
     state = {
@@ -20,21 +22,20 @@ class Table extends React.Component {
     };
 
 
-    onCheckChanged = (event) => {
-        let value = parseInt(event.target.value, 10);
+    onCheckChanged = (checked, value) => {
+
         let selected = this.state.selected;
-        if (event.target.checked) {
+        if (checked) {
             this.setState({selected: [...selected, value]})
         } else {
             this.setState({selected: selected.filter(v => v !== value)})
         }
     };
 
-    onSelectAllToggle = (event) => {
+    onSelectAllToggle = (selectAll) => {
 
-        const selectAll = !this.state.selectAll;
         const selected = selectAll ? this.props.posts.map(p => p.id) : [];
-        this.setState({selectAll: selectAll, selected: selected});
+        this.setState({selected: selected});
     };
 
     onHandleBulkAction = (action) => {
@@ -62,7 +63,7 @@ class Table extends React.Component {
 
     render() {
         const {posts} = this.props;
-        const {selected, selectAll} = this.state;
+        const {selected} = this.state;
         return (
             <div className="wrap">
                 <Header onAction={this.onHandleBulkAction}/>
@@ -71,30 +72,16 @@ class Table extends React.Component {
                     columns={[
 
                         {
-                            Header: () => (<div id="cb" className="manage-column column-cb check-column">
-                                <label className="screen-reader-text" htmlFor="cb-select-all-1">Select All</label>
-                                <input id="cb-select-all-1" type="checkbox"
-                                       checked={selectAll}
-                                       onChange={this.onSelectAllToggle}/></div>),
+                            Header: () => <SelectAllHeader onChange={this.onSelectAllToggle}/>,
                             id: 'id',
                             resizable: false,
                             filterable: false,
                             sortable: false,
                             width: 50,
                             accessor: 'id',
-                            Cell: props => (
-                                <div scope="row" className="check-column">
-                                    <label className="screen-reader-text" htmlFor="cb-select-10">Select
-                                        Post {props.value}</label>
-                                    <input id="cb-select-10" type="checkbox" name="post[]" value={props.value}
-                                           checked={selected.includes(props.value) }
-                                           onChange={this.onCheckChanged}/>
-                                    <div className="locked-indicator">
-                                        <span className="locked-indicator-icon" aria-hidden="true"></span>
-                                        <span className="screen-reader-text">“Post {props.value}” is locked</span>
-                                    </div>
-                                </div>
-                            )
+                            Cell: props => <CheckCell value={props.value}
+                                                      checked={selected.includes(props.value)}
+                                                      onChange={this.onCheckChanged}/>
                         },
                         {
                             Header: 'Title',
@@ -123,11 +110,12 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export {
-    Table
-}
-
-export default connect(
+const Table = connect(
     null,
     mapDispatchToProps
-)(Table);
+)(UnconnectedTable);
+export default Table;
+export {
+    UnconnectedTable
+}
+
