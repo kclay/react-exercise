@@ -54,7 +54,7 @@
     "webpack-hot-middleware": "^2.18.2"
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.21.2",
     "browser-sync-webpack-plugin": "^1.2.0",
     "copy-webpack-plugin": "^4.0.1",
     "prop-types": "^15.5.10",
